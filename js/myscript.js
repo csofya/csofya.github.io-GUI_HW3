@@ -18,8 +18,16 @@ function submitFunc() {
     var lower_ver = document.getElementById("lower_vertical").value;
     var upper_ver = document.getElementById("upper_vertical").value;
 
-    // Validate form input and if it passes, create table
-    const values = [+lower_hor, +upper_hor, +lower_ver, +upper_ver]
+    // Check if there is an empty string because an empty string will be translated to 0
+    var str_values = [lower_hor, upper_hor, lower_ver, upper_ver]
+    for (var i = 0; i < str_values.length; i++) {
+        if (str_values[i] == '') {
+            str_values[i] = NaN
+        }
+    }
+
+    // Update the values of input and convert to numerical input to validate
+    var values = str_values.map(Number);
     var pass = validateNumber(values);
     if (pass) {
         createTable(+lower_hor, +upper_hor, +lower_ver, +upper_ver)
@@ -43,7 +51,8 @@ function validateNumber(values) {
     var pass = true;
     // Validate range
     for (var i = 0; i < values.length; i++) {
-        if (isNaN(values[i]) || values[i] < -50 || values[i] > 50 || values[i] == '') {
+        // 0 in a form is treated as an empty string, so use strict equality operator
+        if (isNaN(values[i]) || values[i] < -50 || values[i] > 50 || values[i] === '') {
             text = "Please enter value(s) that are between -50 to 50"
             document.getElementById("error_message").innerHTML = text;
             pass = false;
@@ -93,13 +102,6 @@ function createTable(lh, uh, lv, uv) {
             var new_cell = header_row.insertCell(increment_var);
             new_cell.innerHTML = table.rows[0].cells[increment_var].innerHTML * first_cell.innerHTML;
             increment_var = increment_var + 1;
-            // Color every other cell
-            if (increment_var % 2 == 0 && increment_row % 2 != 0) {
-                new_cell.style.backgroundColor = "lightblue";
-            }
-            else if (increment_var % 2 != 0 && increment_row % 2 == 0) {
-                new_cell.style.backgroundColor = "lightblue";
-            }
         }
     }
 }
