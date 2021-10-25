@@ -21,7 +21,9 @@ function submitFunc() {
     // Check if there is an empty string because an empty string will be translated to 0
     var str_values = [lower_hor, upper_hor, lower_ver, upper_ver]
     for (var i = 0; i < str_values.length; i++) {
-        if (str_values[i] == '') {
+        // console.log(str_values[i]);
+        if (str_values[i] == '' || str_values[i].includes(".")) {
+            console.log("yes");
             str_values[i] = NaN
         }
     }
@@ -53,7 +55,7 @@ function validateNumber(values) {
     for (var i = 0; i < values.length; i++) {
         // 0 in a form is treated as an empty string, so use strict equality operator
         if (isNaN(values[i]) || values[i] < -50 || values[i] > 50 || values[i] === '') {
-            text = "Please enter value(s) that are between -50 to 50"
+            text = "Please enter integer(s) that are between -50 to 50"
             document.getElementById("error_message").innerHTML = text;
             pass = false;
         }
